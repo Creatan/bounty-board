@@ -4,7 +4,7 @@
   "description": "Bounty board",
   "main": "server.js",
   "scripts": {
-    "start": "build && node ./dist/server.js",
+    "start": "node ./dist/server.js",
     "start:dev": "babel-node ./server/server.js",
     "build": "babel server --out-dir dist",
     "import:teams": "babel-node ./worker/import-teams.js",
