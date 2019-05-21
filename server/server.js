@@ -11,7 +11,7 @@ dotenv.config()
 const port = process.env.PORT || 4000
 
 mongoose.Promise = P
-mongoose.connect('mongodb://localhost/bounty-board', { useNewUrlParser: true, promiseLibrary: P })
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P })
 
 const app = express()
 app.set('views', `${__dirname}/views`)

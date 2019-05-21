@@ -2,12 +2,14 @@
 import mongoose from 'mongoose'
 import P from 'bluebird'
 import request from 'request-promise'
+import dotenv from 'dotenv'
 
 import Team from '../server/models/team'
 import Season from '../server/models/season'
 
+dotenv.config()
 mongoose.Promise = P
-mongoose.connect('mongodb://localhost/bounty-board', { useNewUrlParser: true, promiseLibrary: P })
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P })
 
 const season = process.argv[2]
 
