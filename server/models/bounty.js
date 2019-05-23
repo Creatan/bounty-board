@@ -10,11 +10,15 @@ const BountySchema = mongoose.Schema({
     name: String,
   },
   league: String,
-  provider: String,
+  provider: {
+    name: String,
+    id: mongoose.Schema.Types.ObjectId,
+  },
   requirement: String,
   prize: String,
   reason: String,
   claimed: Boolean,
+  season: String,
 })
 
 export default mongoose.model('Bounty', BountySchema)

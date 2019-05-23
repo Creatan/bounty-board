@@ -8,6 +8,7 @@
     "start:dev": "babel-node ./server/server.js",
     "build": "babel server --out-dir dist --copy-files",
     "import:teams": "babel-node ./worker/import-teams.js",
+    "import:bounties": "babel-node ./worker/import-bounties.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
