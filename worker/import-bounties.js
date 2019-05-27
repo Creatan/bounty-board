@@ -26,6 +26,7 @@ if (!season) {
       provider: {
         name: bounty['Who placed it'],
       },
+      prize: bounty.Prize,
       requirement: bounty.Requirement,
       reason: bounty.Reason,
       claimed: !!bounty.Claimed,
