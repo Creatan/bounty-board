@@ -19,6 +19,11 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use('/static', express.static(path.join(__dirname, 'static')))
 
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain')
+  res.send('User-agent: *\nDisallow: /')
+})
+
 app.use('/', bounties)
 
 app.get('/api/:id', (req, res) => {
