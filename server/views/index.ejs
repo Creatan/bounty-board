@@ -41,27 +41,25 @@
         <table>
           <thead>
             <tr>
-              <th>Prize</th>
-              <th>League</th>
-              <th>Team</th>
-              <th>Player</th>
-              <th>Requirement</th>
-              <th>Reason</th>
-              <th>Provider</th>
-              <th>Claimed</th>
+              <th width="20%">Prize</th>
+              <th width="5%">League</th>
+              <th width="13%">Team</th>
+              <th width="15%">Player</th>
+              <th width="20%">Requirement</th>
+              <th width="17%">Reason</th>
+              <th width="10%">Provider</th>
             </tr>
           </thead>
           <tbody>
             <% bounties.forEach((bounty) => { %>
             <tr data-claimed="<%= bounty.claimed %>">
-              <td><%= bounty.prize %></td>
-              <td><%= bounty.league %></td>
-              <td><%= bounty.team.name %></td>
-              <td><%= bounty.player.name %></td>
-              <td><%= bounty.requirement %></td>
-              <td><%= bounty.reason %></td>
-              <td><%= bounty.provider.name %></td>
-              <td><%= bounty.claimed %></td>
+              <td width="20%"><%= bounty.prize %></td>
+              <td width="5%"><%= bounty.league %></td>
+              <td width="15%"><%= bounty.team.name %></td>
+              <td width="15%"><%= bounty.player.name %></td>
+              <td width="20%"><%= bounty.requirement %></td>
+              <td width="17%"><%= bounty.reason %></td>
+              <td width="10%"><%= bounty.provider.name %></td>
             </tr>
             <% }) %>
           </tbody>
@@ -69,7 +67,7 @@
       </div>
     </main>
     <footer>
-      &copy Creatan <%= new Date().getFullYear() %> - <a href="https://github.com/Creatan/bounty-board">Github</a>
+      &copy Creatan <%= new Date().getFullYear() %> | <a href="https://github.com/Creatan/bounty-board">Github</a>
     </footer>
   </div>
 </body>
