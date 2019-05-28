@@ -48,10 +48,20 @@ table {
 }
 
 /*   UI   */
+:root {
+  --table-header: #C7C7C7;
+  --bg: #f3f3f3;
+  --login: #63B9F3;
+  --login-highlight: #5297C8;
+  --table-highlight: #969696;
+  --table-bg: #F3F3F3;
+  --font-color: #000;
+}
 body {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  background-color: #F3F3F3;
+  background-color: var(--bg);
+  color: var(--font-color);
 }
 
 h1 {
@@ -77,6 +87,14 @@ main {
   margin-bottom: 20px;
 }
 
+footer {
+  text-align: center;
+}
+
+button {
+  color: var(--font-color);
+}
+
 .container {
   padding: 10px 20px
 }
@@ -98,13 +116,13 @@ main {
   margin:0;
 }
 
-.nav{
+.nav {
   display: flex;
   margin-bottom: 20px;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 1px 2px 1px #000;
-  background-color: #C7C7C7;
+  background-color: var(--table-header);
 }
 
 .controls {
@@ -117,14 +135,14 @@ div.login {
 }
 
 .login button {
-  background-color: #63B9F3;
+  background-color: var(--login);
   border-left: 1px solid #000;
   border-right: none;
   cursor:pointer;
 }
 
 .login button:hover {
-  background-color: #5297C8;
+  background-color: var(--login-highlight);
 }
 
 .filter button:last-of-type{
@@ -132,7 +150,7 @@ div.login {
 }
 
 .menu button:first-child, .filter button:first-child, .menu button:hover, .filter button:hover, .active{
-  background-color: #969696;
+  background-color: var(--table-highlight);
 }
 
 .table{
@@ -142,13 +160,13 @@ div.login {
 }
 
 table {
-  background-color: #F3F3F3;
+  background-color: var(--table-bg);
   font-size: 13px;
   width: 100%;
 }
 thead {
   border-bottom: solid 1px #000;
-  background-color: #C7C7C7;
+  background-color: var(--table-header);
 }
 
 th {
