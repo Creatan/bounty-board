@@ -49,13 +49,17 @@ table {
 
 /*   UI   */
 :root {
-  --table-header: #C7C7C7;
-  --bg: #f3f3f3;
-  --login: #63B9F3;
-  --login-highlight: #5297C8;
-  --table-highlight: #969696;
-  --table-bg: #F3F3F3;
-  --font-color: #000;
+  --table-header: #2D232E;
+  --bg: #474448;
+  --login: #534B52;
+  --login-highlight: #625B61;
+  --button-highlight: #2D232E;
+  --button-bg: #403741;
+  --table-bg: #403741;
+  --font-color: #E0DDCF;
+  --link-color: #B9B9FF;
+  --border-color: #534B52;
+  --button-border-color: #151015;
 }
 body {
   font-family: "Roboto", sans-serif;
@@ -94,7 +98,10 @@ footer {
 button {
   color: var(--font-color);
 }
-
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
 .container {
   padding: 10px 20px
 }
@@ -104,7 +111,7 @@ button {
   padding: 10px;
   font-size: 16px;
   border: none;
-  border-right: solid 1px #000;
+  border-right: solid 1px var(--button-border-color);
   position:relative;
   flex: 1 1 auto;
   display: inline-block;
@@ -119,26 +126,32 @@ button {
 .nav {
   display: flex;
   margin-bottom: 20px;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 1px 2px 1px #000;
-  background-color: var(--table-header);
 }
 
+.menu, .filter {
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 1px #000;
+  background-color: var(--button-bg);
+}
+.label {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+}
 .controls {
   display: flex;
   flex: 0 1 calc(100% - 267px);
 }
 
-div.login {
-  display: flex;
-}
-
 .login button {
   background-color: var(--login);
-  border-left: 1px solid #000;
   border-right: none;
   cursor:pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 1px #000;
 }
 
 .login button:hover {
@@ -149,8 +162,8 @@ div.login {
   border:none;
 }
 
-.menu button:first-child, .filter button:first-child, .menu button:hover, .filter button:hover, .active{
-  background-color: var(--table-highlight);
+.menu button:hover, .filter button:hover, .active{
+  background-color: var(--button-highlight);
 }
 
 .table{
@@ -165,7 +178,7 @@ table {
   width: 100%;
 }
 thead {
-  border-bottom: solid 1px #000;
+  border-bottom: solid 1px var(--border-color);
   background-color: var(--table-header);
 }
 
@@ -178,11 +191,14 @@ th {
 }
 td {
   padding: 8px;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 td:last-of-type {
   border-right: none;
+}
+tbody tr:hover {
+  background-color: var(--table-header);
 }
 
 .hidden {
