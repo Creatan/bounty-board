@@ -17,7 +17,7 @@
     </header>
     <main>
       <div class="nav">
-        <div class="controls">
+        <div class="controls <%= user ? 'logged':'' %>">
           <div class="label">
               Show:
           </div>
@@ -34,11 +34,20 @@
             <button class="btn" data-filter="big o">Big O</button>
           </div>
         </div>
+        <% if(!user) {%>
         <div class="login">
           <button class="btn">
             Log in to place or claim a bounty
           </button>
         </div>
+        <% }%>
+        <% if(user) {%>
+        <div class="add">
+          <button class="btn">
+            Add bounty
+          </button>
+        </div>
+        <% }%>
       </div>
       <div class="table">
         <table>

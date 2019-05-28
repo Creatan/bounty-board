@@ -6,7 +6,7 @@ const router = express.Router()
 
 async function listBounties(req, res) {
   const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).exec()
-  res.render('index', { bounties })
+  res.render('index', { bounties, user: req.user })
 }
 
 router.use('/', listBounties)

@@ -158,11 +158,13 @@ a {
   display: flex;
   flex: 0 1 calc(100% - 267px);
 }
+.controls.logged {
+  flex: 0 1 calc(100% - 108px);
+}
 
 .login button {
   background-color: var(--login);
   border-right: none;
-  cursor:pointer;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 1px 2px 1px #000;
@@ -174,6 +176,18 @@ a {
 
 .filter button:last-of-type{
   border:none;
+}
+
+.add button {
+  background-color: var(--login);
+  border-right: none;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 1px #000;
+}
+
+.add button:hover {
+  background-color: var(--login-highlight);
 }
 
 .menu button:hover, .filter button:hover, .active{
