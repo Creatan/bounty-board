@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     show: 'wanted',
     filter: '',
   }
+  const modal = document.querySelector('.modal')
+  const modalOverlay = document.querySelector('.modal-overlay')
 
   $('.menu button').forEach((element) => {
     element.addEventListener('click', (event) => {
@@ -49,5 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
       filterRows(state)
     })
   })
+  const addBtn = document.querySelector('.add button')
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      modal.classList.toggle('closed')
+      modalOverlay.classList.toggle('closed')
+    })
+  }
+  document.querySelector('.modal .cancel').addEventListener('click', () => {
+    modal.classList.toggle('closed')
+    modalOverlay.classList.toggle('closed')
+  })
+
   filterRows(state)
 })
