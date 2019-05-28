@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import P from 'bluebird'
 import dotenv from 'dotenv'
+import path from 'path'
 
 import logger from './logger'
 import bounties from './routes/index'
@@ -14,8 +15,10 @@ mongoose.Promise = P
 mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P })
 
 const app = express()
-app.set('views', `${__dirname}/views`)
-app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+app.use('/static', express.static(path.join(__dirname, 'static')))
+
 app.use('/', bounties)
 
 app.get('/api/:id', (req, res) => {
