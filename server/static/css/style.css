@@ -69,11 +69,13 @@ body {
 }
 
 h1 {
-  text-align: center;
   font-size: 34px;
   text-transform: uppercase;
   font-weight: 500;
-  margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
 }
 
 h2 {
@@ -85,6 +87,11 @@ h2 {
 
 p {
   margin-bottom: 10px;
+}
+
+header {
+  display: flex;
+  margin-bottom: 40px;
 }
 
 main {
@@ -101,6 +108,13 @@ button {
 a {
   color: var(--link-color);
   text-decoration: none;
+}
+.logo {
+  background: url(/static/images/rebbl.png) no-repeat 99%;
+  display: inline-block;
+  width: 164px;
+  height: 100px;
+  text-indent: -9999px;
 }
 .container {
   padding: 10px 20px
