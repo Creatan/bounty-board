@@ -1,15 +1,16 @@
 /* eslint-env browser */
+const $ = sel => document.querySelectorAll(sel)
 
 function filterRows(state) {
   const claimed = state.show === 'claimed'
-  document.querySelectorAll('tbody tr').forEach((element) => { element.classList.remove('hidden') })
+  $('tbody tr').forEach((element) => { element.classList.remove('hidden') })
 
-  document.querySelectorAll(`tbody tr[data-claimed="${!claimed}"]`).forEach((element) => {
+  $(`tbody tr[data-claimed="${!claimed}"]`).forEach((element) => {
     element.classList.add('hidden')
   })
 
   if (state.filter !== '') {
-    document.querySelectorAll('tbody tr:not(.hidden)').forEach((element) => {
+    $('tbody tr:not(.hidden)').forEach((element) => {
       if (!element.children.item(1).textContent.toLowerCase().includes(state.filter)) {
         element.classList.add('hidden')
       }
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     show: 'wanted',
     filter: '',
   }
-  document.querySelectorAll('.menu button').forEach((element) => {
+
+  $('.menu button').forEach((element) => {
     element.addEventListener('click', (event) => {
       document.querySelector('.menu button.active').classList.remove('active')
       event.target.classList.add('active')
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
-  document.querySelectorAll('.filter button').forEach((element) => {
+  $('.filter button').forEach((element) => {
     element.addEventListener('click', (event) => {
       const prev = document.querySelector('.filter button.active')
       if (prev) {
