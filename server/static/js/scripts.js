@@ -11,7 +11,7 @@ function filterRows(state) {
 
   if (state.filter !== '') {
     $('tbody tr:not(.hidden)').forEach((element) => {
-      if (!element.children.item(1).textContent.toLowerCase().includes(state.filter)) {
+      if (!element.children.item(0).textContent.toLowerCase().includes(state.filter)) {
         element.classList.add('hidden')
       }
     })

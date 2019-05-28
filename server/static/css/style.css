@@ -224,6 +224,20 @@ td {
 }
 td:last-of-type {
   border-right: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+}
+td:nth-of-type(4){
+  color: #ff8900;
+}
+td:nth-of-type(2){
+  font-size: 15px;
+  color: #fff;
+}
+td:nth-of-type(3){
+  font-size: 15px;
+  color: #fff;
 }
 tbody tr:hover {
   background-color: var(--table-header);
