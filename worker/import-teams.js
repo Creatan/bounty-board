@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import P from 'bluebird'
 import request from 'request-promise'
 import dotenv from 'dotenv'
+import ora from 'ora'
+import chalk from 'chalk'
 
 import Team from '../server/models/team'
 import Season from '../server/models/season'
@@ -27,17 +29,17 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
     if (allowedLeagues.every(val => leagues.includes(val))) {
       await P.map(allowedLeagues, async (league) => {
         const teams = await request.get(`https://rebbl.net/api/v2/standings/${league}/${season}`, { json: true })
+        let count = 1
+        const spinner = ora(`Importing teams for ${league}: ${count}/${teams.length}`).start()
         await P.map(teams, async (team) => {
           const oldTeam = await Team.findOne({ id: team.teamId }).exec()
           const url = `https://rebbl.net/api/v2/team/${team.teamId}/players`
-          console.log(`Fetching data from ${url}`)
           const playerData = await request(url, { json: true })
 
           const roster = playerData.map(player => ({
             id: player.id,
             name: player.name,
           }))
-
           if (!oldTeam) {
             const newTeam = new Team({
               id: team.teamId,
@@ -50,14 +52,19 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
             await newTeam.save()
           } else {
             oldTeam.roster = roster
+            oldTeam.division = team.competition
             if (!oldTeam.seasons.includes(season)) {
               oldTeam.seasons.push(season)
             }
 
             await oldTeam.save()
           }
+          count += 1
+
+          spinner.text = `Importing teams for ${league}: ${count}/${teams.length}`
           await delay(100)
         }, { concurrency: 1 })
+        spinner.stopAndPersist({ symbol: `${chalk.green.bold('✓')}`, text: `Importing teams for ${league}: Done` })
       }, { concurrency: 1 })
     }
   } catch (err) {
