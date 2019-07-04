@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 
 import logger from './logger'
 import bounties from './routes/index'
+import teams from './routes/team'
 
 dotenv.config()
 
@@ -29,11 +30,12 @@ app.get('/robots.txt', (req, res) => {
 })
 
 app.use('/', bounties)
-
+app.use('/api/v1/teams', teams)
 app.get('/api/:id', (req, res) => {
   logger.info(`${new Date()} ${req.params.id}`)
-  res.json({})
+  res.json({ id: req.params.id })
 })
+
 
 app.listen(port)
 logger.info(`Server listening in port ${port}`)
