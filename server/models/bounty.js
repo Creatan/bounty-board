@@ -14,10 +14,13 @@ const BountySchema = mongoose.Schema({
     name: String,
     id: mongoose.Schema.Types.ObjectId,
   },
-  requirement: String,
+  requirement: [String],
   prize: String,
   reason: String,
-  claimed: Boolean,
+  status: {
+    type: String,
+    enum: ['open', 'claimable', 'claimed'],
+  },
   season: String,
 })
 
