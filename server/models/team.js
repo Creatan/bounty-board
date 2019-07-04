@@ -4,6 +4,7 @@ const TeamSchema = mongoose.Schema({
   id: Number,
   name: String,
   league: String,
+  division: String,
   seasons: [String],
   roster: [{
     id: Number,
