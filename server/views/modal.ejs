@@ -7,29 +7,69 @@
       <div class="modal-row">
         <label for="league">League</label>
         <select name="league" id="">
-          <option value="" selected>Select league...</option>
-          <option value="GMAN 5E">GMAN 5E</option>
+          <option value="" selected></option>
+          <%season.leagues.forEach(league => {%>
+            <option value="<%=league.value%>"><%=league.label%></option>
+          <%})%>
+        </select>
+      </div>
+      <div class="modal-row">
+        <label for="division">Division</label>
+        <select name="division" id="">
+          <option value="" selected></option>
+          <%season.divisions.forEach(division => {%>
+            <option class="hidden" value="<%=division.value%>"><%=division.label%></option>
+          <%})%>
         </select>
       </div>
       <div class="modal-row">
         <label>Team</label>
         <select name="team" id="">
-          <option value="" selected>Select team...</option>
-          <option value="The Duellists">The Duellists</option>
+          <option value="" selected></option>
         </select>
       </div>
       <div class="modal-row">
         <label>Player</label>
         <select name="player" id="">
-          <option value="" selected>Select player...</option>
-          <option value="12312412412">Lzzy Hale</option>
+          <option value="" selected></option>
         </select>
       </div>
       <div class="modal-row">
         <label>Requirements</label>
-        <select name="requirements" id="">
-          <option value="dead">Dead</option>
-        </select>
+        <div class="modal-row-content">
+          <div class="modal-col">
+            <div>
+              <input type="checkbox" id="ag" name="requirements" value="ag"/>
+              <label for="ag">- AG</label>
+            </div>
+            <div>
+              <input type="checkbox" id="st" name="requirements" value="st"/>
+              <label for="st">- ST</label>
+            </div>
+            <div>
+              <input type="checkbox" id="av" name="requirements" value="av"/>
+              <label for="av">- AV</label>
+            </div>
+            <div>
+              <input type="checkbox" id="ma" name="requirements" value="ma"/>
+              <label for="ma">- MA</label>
+            </div>
+          </div>
+          <div class="modal-col">
+            <div>
+              <input type="checkbox" id="dead" name="requirements" value="dead"/>
+              <label for="dead">Dead</label>
+            </div>
+            <div>
+              <input type="checkbox" id="retired" name="requirements" value="retired"/>
+              <label for="retired">Retired</label>
+            </div>
+            <div>
+              <input type="checkbox" id="niggle" name="requirements" value="niggle"/>
+              <label for="niggle">Niggle</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-row">
         <label>Reason</label>

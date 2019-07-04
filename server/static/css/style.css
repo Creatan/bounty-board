@@ -279,8 +279,16 @@ tbody tr:hover {
 
 }
 
-.modal-row{
+.modal-row {
   padding: 10px  0px;
+}
+
+.modal-row-content {
+  display: flex;
+}
+
+.modal-row-content .modal-col {
+  flex: 1;
 }
 
 select {
@@ -290,9 +298,10 @@ select {
   border: none;
   border-radius: 5px;
   outline: none;
+  min-width: 150px;
 }
 
-input {
+input[type="text"] {
   padding: 5px;
   width: 100%;
   max-width: 500px;
@@ -300,17 +309,21 @@ input {
 }
 
 label {
-  display:block;
+  display: block;
   margin-bottom: 10px;
+}
+
+input[type="checkbox"] + label {
+  display: inline-block;
 }
 
 .modal-footer {
   border-top: 1px solid var(--button-border-color);
-  display:flex;
+  display: flex;
   justify-content: center;
   padding: 20px;
 }
-.modal-header{
+.modal-header {
   padding: 20px;
   border-bottom: 1px solid var(--button-border-color);
   text-align: center;
