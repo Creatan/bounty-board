@@ -24,7 +24,12 @@ const allowedLeagues = ['REBBL - REL', 'REBBL - GMan', 'REBBL - Big O']
 const delay = ms => new P(resolve => setTimeout(resolve, ms));
 (async () => {
   try {
-    await Season.findOneAndUpdate({ identifier: season }, { identifier: season }, { upsert: true }).exec()
+    const validSeason = await Season.findOne({ identifier: season }).exec()
+    if (!validSeason) {
+      console.log('Season not found, check spelling or create new season with npm run create:season -- <season>')
+      process.exit(1)
+    }
+
     const leagues = await request.get('https://rebbl.net/api/v2/league/', { json: true })
     if (allowedLeagues.every(val => leagues.includes(val))) {
       await P.map(allowedLeagues, async (league) => {
@@ -44,7 +49,8 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
             const newTeam = new Team({
               id: team.teamId,
               name: team.team,
-              league: team.league,
+              league,
+              division: team.competition,
               seasons: [season],
               roster,
             })
