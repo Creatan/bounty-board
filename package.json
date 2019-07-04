@@ -23,10 +23,12 @@
   "homepage": "https://github.com/Creatan/bounty-board#readme",
   "dependencies": {
     "bluebird": "^3.5.4",
+    "chalk": "^2.4.2",
     "dotenv": "^8.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mongoose": "^5.4.21",
+    "ora": "^3.4.0",
     "pug": "^2.0.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
