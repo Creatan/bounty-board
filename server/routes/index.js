@@ -2,6 +2,7 @@ import express from 'express'
 import Bounty from '../models/bounty'
 import Season from '../models/season'
 import Team from '../models/team'
+import { authenticated } from '../utils'
 
 const router = express.Router()
 
@@ -63,6 +64,6 @@ async function createBounty(req, res) {
 }
 
 router.get('/', listBounties)
-router.post('/bounty', createBounty)
+router.post('/bounty', authenticated, createBounty)
 
 export default router

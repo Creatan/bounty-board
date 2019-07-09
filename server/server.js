@@ -47,7 +47,6 @@ app.use(session({
 const RedditStrategy = passportReddit.Strategy
 passport.serializeUser((user, done) => done(null, user))
 passport.deserializeUser(async (id, done) => {
-  console.log(id)
   const user = await User.findOne({ _id: id }).exec()
   return done(null, user)
 })
