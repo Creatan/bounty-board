@@ -55,7 +55,8 @@ async function createBounty(req, res) {
     prize,
     status: 'open',
     provider: {
-      name: 'Me',
+      id: req.user._id,
+      name: req.user.redditName,
     },
     season: 'season 11',
   })
