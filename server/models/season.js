@@ -6,6 +6,7 @@ const SeasonSchema = mongoose.Schema({
     name: String,
     divisions: [String],
   }],
+  active: Boolean,
 })
 if (!SeasonSchema.options.toJSON)SeasonSchema.options.toJSON = {}
 SeasonSchema.options.toJSON.transform = (doc, ret) => {
