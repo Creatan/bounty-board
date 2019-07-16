@@ -345,3 +345,16 @@ input[type="checkbox"] + label {
   background: rgba(0, 0, 0, 0.6);
 }
 
+
+/* Rethinkg the colors */
+tr[data-claimed="claimable"] {
+  background-color: var(--font-color);
+  cursor: pointer;
+}
+tr[data-claimed="claimable"]:hover {
+  background-color: var(--font-color);
+  cursor: pointer;
+}
+tr[data-claimed="claimable"] td{
+  color: var(--table-bg);
+}
