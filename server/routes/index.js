@@ -30,7 +30,7 @@ async function createBounty(req, res) {
     division,
     team,
     player,
-    requirements,
+    requirement,
     reason,
     prize,
   } = req.body
@@ -50,7 +50,7 @@ async function createBounty(req, res) {
       id: playerData.id,
       name: playerData.name,
     },
-    requirements,
+    requirement,
     reason,
     prize,
     status: 'open',
