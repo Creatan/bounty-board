@@ -1,12 +1,12 @@
 /* eslint-env browser */
 /* globals season */
 const $ = sel => document.querySelectorAll(sel)
-
+// TODO: Fix this for enumerated status
 function filterRows(state) {
-  const claimed = state.show === 'claimed'
+  const claimed = state.show === 'claimed' ? 'open' : 'claimed'
   $('tbody tr').forEach((element) => { element.classList.remove('hidden') })
 
-  $(`tbody tr[data-claimed="${!claimed}"]`).forEach((element) => {
+  $(`tbody tr[data-claimed="${claimed}"]`).forEach((element) => {
     element.classList.add('hidden')
   })
 
@@ -53,7 +53,7 @@ function setPlayerOptions(players, selectElement) {
 document.addEventListener('DOMContentLoaded', () => {
   const state = {
     display: {
-      show: 'wanted',
+      show: 'open',
       filter: '',
     },
     data: {
@@ -106,8 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   document.querySelector('select[name="league"]').addEventListener('change', (event) => {
+    document.querySelector('select[name="division"]').value = ''
+    document.querySelector('select[name="team"]').value = ''
+    document.querySelector('select[name="player"]').value = ''
     $('select[name="division"] option').forEach((element) => {
-      document.querySelector('select[name="division"]').value = ''
       if (element.value.includes(event.target.value)) {
         element.classList.remove('hidden')
       } else {
@@ -117,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   document.querySelector('select[name="division"]').addEventListener('change', (event) => {
+    document.querySelector('select[name="team"]').value = ''
+    document.querySelector('select[name="player"]').value = ''
     if (!state.data.teams[event.target.value]) {
       getTeams(season, leagueSelect.value, event.target.value.split(':')[1]).then((teams) => {
         state.data.teams[event.target.value] = teams.reduce((acc, curr) => {
@@ -133,6 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('select[name="team"').addEventListener('change', (event) => {
     setPlayerOptions(state.data.teams[divisionSelect.value][event.target.value].roster, playerSelect)
   })
-
+  $('tr[data-claimed="claimable"]').forEach((element) => {
+    element.addEventListener('click', (event) => {
+      window.location = `https://rebbl.net/rebbl/match/${event.target.dataset.match}`
+    })
+  })
   filterRows(state.display)
 })
