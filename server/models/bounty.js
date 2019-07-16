@@ -22,6 +22,7 @@ const BountySchema = mongoose.Schema({
     enum: ['open', 'claimable', 'claimed'],
   },
   season: String,
+  match: String,
 })
 
 export default mongoose.model('Bounty', BountySchema)
