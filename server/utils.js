@@ -8,7 +8,16 @@ const authenticated = (req, res, next) => {
   throw Error(403)
 }
 
+class HttpError extends Error {
+  constructor(status, message) {
+    super(message)
+    this.status = status
+    this.message = message
+  }
+}
+
 export {
   delay,
   authenticated,
+  HttpError,
 }

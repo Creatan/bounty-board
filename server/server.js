@@ -15,6 +15,7 @@ import teams from './routes/team'
 import auth from './routes/auth'
 
 import User from './models/user'
+import { HttpError } from './utils'
 
 dotenv.config()
 
@@ -82,6 +83,18 @@ app.get('/robots.txt', (req, res) => {
 app.use('/', bounties)
 app.use('/api/v1/teams', teams)
 app.use('/auth', auth)
+
+// Error handler
+app.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
+  if (error instanceof HttpError) {
+    res.status(error.status)
+    res.send(`${error.status}: ${error.message}`)
+  } else {
+    console.log(error)
+    res.status(500)
+    res.send(error)
+  }
+})
 
 app.listen(port)
 logger.info(`Server listening in port ${port}`)

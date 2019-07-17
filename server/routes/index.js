@@ -2,14 +2,11 @@ import express from 'express'
 import Bounty from '../models/bounty'
 import Season from '../models/season'
 import Team from '../models/team'
-import { authenticated } from '../utils'
+import { authenticated, HttpError } from '../utils'
 
 const router = express.Router()
 
-
-async function listBounties(req, res) {
-  const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).exec()
-  const season = await Season.findOne({ identifier: 'season 11' }).exec()
+function transformSeasonData(season) {
   const leagues = season.leagues.map(league => ({
     value: league.name,
     label: league.name.split(' - ')[1],
@@ -21,7 +18,13 @@ async function listBounties(req, res) {
       if (a.label < b.label) return -1
       return 0
     })
-  res.render('index', { bounties, season: { leagues, divisions, identifier: 'season 11' }, user: req.user })
+  return { leagues, divisions }
+}
+
+async function listBounties(req, res) {
+  const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).exec()
+  const season = await Season.findOne({ active: true }).exec()
+  res.render('index', { bounties, season: { ...transformSeasonData(season), identifier: season.identifier }, user: req.user })
 }
 
 async function createBounty(req, res) {
@@ -64,7 +67,20 @@ async function createBounty(req, res) {
   res.redirect('/')
 }
 
+async function deleteBounty(req, res, next) {
+  try {
+    const bounty = await Bounty.findOne({ _id: req.params.id }).exec()
+    if (!bounty) throw new HttpError(404, 'Bounty not found')
+    if (req.user._id.toString() !== bounty.provider.id.toString()) throw new HttpError(403, 'Permission denied')
+    res.json({})
+  } catch (err) {
+    next(err)
+  }
+}
+
+
 router.get('/', listBounties)
 router.post('/bounty', authenticated, createBounty)
+router.delete('/bounty/:id', authenticated, deleteBounty)
 
 export default router
