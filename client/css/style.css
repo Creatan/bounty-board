@@ -110,7 +110,7 @@ a {
   text-decoration: none;
 }
 .logo {
-  background: url(/static/images/rebbl.png) no-repeat 99%;
+  background: url(../images/rebbl.png) no-repeat 99%;
   display: inline-block;
   width: 164px;
   height: 100px;
@@ -125,12 +125,11 @@ a {
   padding: 10px;
   font-size: 16px;
   border: none;
-  border-right: solid 1px var(--button-border-color);
   position:relative;
   flex: 1 1 auto;
   display: inline-block;
-  margin-left:-4px;
   cursor: pointer;
+  outline: none;
 }
 
 .btn:first-child{
@@ -156,22 +155,25 @@ a {
 }
 .controls {
   display: flex;
-  flex: 0 1 calc(100% - 267px);
+  flex: 0 1 calc(100% - 251px);
 }
 .controls.logged {
   flex: 0 1 calc(100% - 108px);
 }
 
-.login button {
+.login a {
   background-color: var(--login);
   border-right: none;
-  overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 1px 2px 1px #000;
 }
 
-.login button:hover {
+.login a:hover {
   background-color: var(--login-highlight);
+}
+
+.filter button {
+  border-right: solid 1px var(--button-border-color);
 }
 
 .filter button:last-of-type{
@@ -194,13 +196,18 @@ a {
   background-color: var(--button-highlight);
 }
 
-form button {
+.modal-footer button {
   background-color: var(--table-header);
   border: none;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 2px 1px #000;
   cursor: pointer;
+  min-width: 200px;
+}
+.errors li {
+  padding: 2px 0;
+  color: #F8512F;
 }
 
 .cancel {
@@ -278,6 +285,9 @@ tbody tr:hover {
   padding: 10px 10px 20px 20px;
 
 }
+.modal-body h3 {
+  margin-bottom: 10px;
+}
 
 .modal-row {
   padding: 10px  0px;
@@ -299,6 +309,8 @@ select {
   border-radius: 5px;
   outline: none;
   min-width: 150px;
+  display:block;
+  margin-top: 10px;
 }
 
 input[type="text"] {
@@ -306,11 +318,8 @@ input[type="text"] {
   width: 100%;
   max-width: 500px;
   border-radius: 5px;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
+  display:block;
+  margin-top: 10px;
 }
 
 input[type="checkbox"] + label {
@@ -319,9 +328,12 @@ input[type="checkbox"] + label {
 
 .modal-footer {
   border-top: 1px solid var(--button-border-color);
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   padding: 20px;
+}
+.help {
+  font-size: 0.8em;
 }
 .modal-header {
   padding: 20px;
@@ -357,4 +369,7 @@ tr[data-claimed="claimable"]:hover {
 }
 tr[data-claimed="claimable"] td{
   color: var(--table-bg);
+}
+tr[data-claimed="claimable"] td:nth-child(4){
+  color: #ff8900;
 }
