@@ -10,6 +10,7 @@ const BountySchema = mongoose.Schema({
     name: String,
   },
   league: String,
+  division: String,
   provider: {
     name: String,
     id: mongoose.Schema.Types.ObjectId,
