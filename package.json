@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./dist/server.js",
-    "start:dev": "nodemon --exec babel-node ./server/server.js",
-    "build": "babel server --out-dir dist --copy-files",
+    "server:dev": "nodemon --exec babel-node ./server/server.js",
+    "client:dev": "npx parcel client/index.html",
+    "build": "babel server --out-dir dist && parcel build client/index.html --out-dir dist/static",
     "import:teams": "babel-node ./worker/import-teams.js",
     "import:bounties": "babel-node ./worker/import-bounties.js",
     "create:season": "babel-node ./worker/create-season.js",
@@ -35,7 +36,10 @@
     "ora": "^3.4.0",
     "passport": "^0.4.0",
     "passport-reddit": "^0.2.4",
+    "prop-types": "^15.7.2",
     "pug": "^2.0.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "winston": "^3.2.1"
@@ -45,12 +49,21 @@
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.3",
-    "eslint": "^5.16.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "nodemon": "^1.19.0"
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
+    "nodemon": "^1.19.0",
+    "parcel-bundler": "^1.12.3"
   },
   "engine": {
     "node": "10.x"
-  }
+  },
+  "browserslist": [
+    ">0.5%", "not ie 11", "not op_mini all", "not samsung 4"
+  ]
 }
