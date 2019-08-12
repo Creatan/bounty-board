@@ -35,6 +35,7 @@ const store = new MongoDBStore({
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(session({
   secret: process.env.SECRET,
   cookie: {
@@ -89,7 +90,7 @@ app.use('/auth', auth)
 app.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
   if (error instanceof HttpError) {
     res.status(error.status)
-    res.send(`${error.status}: ${error.message}`)
+    res.json({ status: error.status, message: error.message })
   } else {
     console.log(error)
     res.status(500)
