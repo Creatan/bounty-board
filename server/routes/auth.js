@@ -23,7 +23,7 @@ async function auth(req, res, next) {
       failureRedirect: '/auth/reddit',
     })(req, res, next)
   } else {
-    next(new HttpError({ code: 403, message: "State didn't match" }))
+    next(new HttpError(403, "State didn't match"))
   }
 }
 
