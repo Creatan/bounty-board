@@ -1,6 +1,7 @@
 import React from 'react'
 import BountyBoard from './bounty-board'
 import BountyModal from './bounty-modal'
+import DetailsModal from './details-modal'
 import {
   getBounties, getSeason, getTeams, createBounty, getUser,
 } from '../actions'
@@ -17,6 +18,7 @@ class App extends React.Component {
       modal: '',
       season: {},
       user: undefined,
+      details: {},
       teams: [],
     }
 
@@ -27,7 +29,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     const [bounties, season, user] = await Promise.all([getBounties(), getSeason(), getUser()])
-    console.log(user)
     this.setState({
       bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
       season,
@@ -86,20 +87,25 @@ class App extends React.Component {
     this.setState({ modal })
   }
 
+  showDetails(provider) {
+    this.setState({
+      modal: 'info',
+      details: provider,
+    })
+  }
+
   async authenticate() {
     const response = await fetch('/auth/reddit')
     if (response.ok) {
       const user = await response.json()
-      console.log(user)
       this.setState({ user })
     }
   }
 
   render() {
     const {
-      bounties, season, filter, modal, teams, user,
+      bounties, season, filter, modal, teams, user, details,
     } = this.state
-    console.log(user)
     return (
       <div className="container">
         <header>
@@ -178,6 +184,7 @@ class App extends React.Component {
               .filter(bounty => filter.status.includes(bounty.status))}
             user={user}
             deleteBounty={() => console.log('---DELETED---')}
+            onClick={provider => this.showDetails(provider)}
           />
         </main>
         <footer>
@@ -197,6 +204,9 @@ class App extends React.Component {
             onCancel={() => this.openModal('')}
             createBounty={this.createBounty}
           />
+        )}
+        {modal === 'info' && (
+          <DetailsModal provider={details} onClose={() => this.openModal('')} />
         )}
       </div>
     )

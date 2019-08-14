@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 
 const BountyBoard = (props) => {
-  const { bounties, user, deleteBounty } = props
+  const {
+    bounties, user, deleteBounty, onClick,
+  } = props
   return (
     <div className="table">
       <table>
@@ -21,7 +23,7 @@ const BountyBoard = (props) => {
         <tbody>
           {
             bounties.map(bounty => (
-              <tr data-claimed={bounty.status} key={bounty._id}>
+              <tr data-claimed={bounty.status} key={bounty._id} onClick={bounty.status === 'claimable' ? () => onClick(bounty.provider) : null}>
                 <td width="7%">{ bounty.league }</td>
                 <td width="15%">{ bounty.player.name }</td>
                 <td width="15%">{ bounty.team.name }</td>
@@ -32,8 +34,8 @@ const BountyBoard = (props) => {
                 </td>
                 <td width="17%">{ bounty.reason }</td>
                 <td width="10%">
-                  { user._id && bounty.provider.id.toString() === user._id.toString()
-                    ? <button type="button" className="delete-btn" onClick={deleteBounty(bounty._id)}>Delete</button> : bounty.provider.name }
+                  { user._id && bounty.provider._id.toString() === user._id.toString()
+                    ? <button type="button" className="delete-btn" onClick={deleteBounty(bounty._id)}>Delete</button> : bounty.provider.redditName }
                 </td>
               </tr>
             ))
@@ -61,6 +63,7 @@ BountyBoard.propTypes = {
     name: PropTypes.string,
   }),
   deleteBounty: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 BountyBoard.defaultProps = {
