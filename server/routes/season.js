@@ -1,8 +1,6 @@
 import express from 'express'
 import Season from '../models/season'
 
-import { HttpError } from '../utils'
-
 const router = express.Router()
 
 function transformSeasonData(season) {
