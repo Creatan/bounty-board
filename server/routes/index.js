@@ -21,7 +21,7 @@ function isValid(bounty) {
 }
 
 async function listBounties(req, res) {
-  const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).exec()
+  const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).populate('provider', 'redditName discord -_id').exec()
   res.json(bounties)
 }
 
