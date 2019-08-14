@@ -31,7 +31,6 @@ export async function getTeams(league, season) {
 }
 export async function getUser() {
   try {
-    console.log('fetch user')
     const result = await fetch('/api/v1/user')
     const data = await result.json()
     return data
@@ -42,7 +41,6 @@ export async function getUser() {
 }
 
 export async function createBounty(bounty) {
-  console.log(bounty)
   const result = await fetch('/api/v1/bounty', {
     method: 'POST',
     headers: {
