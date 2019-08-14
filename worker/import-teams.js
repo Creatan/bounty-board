@@ -36,8 +36,7 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
         const teams = await request.get(`https://rebbl.net/api/v2/standings/${league}/${season}`, { json: true })
         await P.map(teams, async (team) => {
           const oldTeam = await Team.findOne({ id: team.teamId }).exec()
-
-          if (oldTeam && !oldTeam.seasons.includes(season)) {
+          if (!oldTeam || !oldTeam.seasons.includes(season)) {
             const url = `https://rebbl.net/api/v2/team/${team.teamId}/players`
             const playerData = await request(url, { json: true })
 
@@ -54,7 +53,6 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
                 seasons: [season],
                 roster,
               })
-
               await newTeam.save()
             } else {
               oldTeam.seasons.push(season)
