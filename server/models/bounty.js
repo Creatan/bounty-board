@@ -11,10 +11,7 @@ const BountySchema = mongoose.Schema({
   },
   league: String,
   division: String,
-  provider: {
-    name: String,
-    id: mongoose.Schema.Types.ObjectId,
-  },
+  provider: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   requirement: [String],
   prize: String,
   reason: String,

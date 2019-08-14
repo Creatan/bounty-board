@@ -1,6 +1,7 @@
 import express from 'express'
 import Bounty from '../models/bounty'
 import Team from '../models/team'
+import Season from '../models/season'
 import { authenticated, HttpError } from '../utils'
 
 const router = express.Router()
@@ -43,6 +44,7 @@ async function createBounty(req, res, next) {
     next(new HttpError(400, validationErrors.join(',')))
   } else {
     const teamData = await Team.findOne({ id: team }).exec()
+    const season = await Season.findOne({ active: true }).exec()
     const playerData = teamData.roster.find(p => p.id === parseInt(player, 10))
     const bounty = new Bounty({
       league,
@@ -59,11 +61,8 @@ async function createBounty(req, res, next) {
       reason,
       prize,
       status: 'open',
-      provider: {
-        id: req.user._id,
-        name: req.user.redditName,
-      },
-      season: 'season 11',
+      provider: req.user._id,
+      season: season.identifier,
     })
     res.json(await bounty.save())
   }
