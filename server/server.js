@@ -40,7 +40,7 @@ app.use(session({
   secret: process.env.SECRET,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
     maxAge: 180 * 24 * 60 * 60 * 1000,
   },
   resave: false,
