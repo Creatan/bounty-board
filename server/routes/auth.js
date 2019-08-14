@@ -16,8 +16,6 @@ async function login(req, res, next) {
 }
 
 async function auth(req, res, next) {
-  console.log(req.query.state)
-  console.log(req.session)
   if (req.query.state === req.session.state) {
     passport.authenticate('reddit', {
       successRedirect: '/',
