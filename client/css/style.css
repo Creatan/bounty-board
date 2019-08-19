@@ -196,7 +196,7 @@ a {
   background-color: var(--button-highlight);
 }
 
-.modal-footer button {
+.modal-footer button, .manage button {
   background-color: var(--table-header);
   border: none;
   padding: 10px;
@@ -204,6 +204,13 @@ a {
   box-shadow: 0 1px 2px 1px #000;
   cursor: pointer;
   min-width: 200px;
+}
+
+.manage button{
+  min-width: 45%;
+}
+.manage button:nth-child(2) {
+  margin-left: 10%;
 }
 .errors li {
   padding: 2px 0;

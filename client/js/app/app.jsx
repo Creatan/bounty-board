@@ -2,6 +2,7 @@ import React from 'react'
 import BountyBoard from './bounty-board'
 import BountyModal from './bounty-modal'
 import DetailsModal from './details-modal'
+import ControlsModal from './controls-modal'
 import {
   getBounties, getSeason, getTeams, createBounty, getUser,
 } from '../actions'
@@ -20,6 +21,7 @@ class App extends React.Component {
       user: undefined,
       details: {},
       teams: [],
+      bountyId: '',
     }
 
     this.getTeams = this.getTeams.bind(this)
@@ -94,6 +96,13 @@ class App extends React.Component {
     })
   }
 
+  showControls(id) {
+    this.setState({
+      modal: 'controls',
+      bountyId: id,
+    })
+  }
+
   async authenticate() {
     const response = await fetch('/auth/reddit')
     if (response.ok) {
@@ -104,7 +113,7 @@ class App extends React.Component {
 
   render() {
     const {
-      bounties, season, filter, modal, teams, user, details,
+      bounties, season, filter, modal, teams, user, details, bountyId,
     } = this.state
     return (
       <div className="container">
@@ -183,8 +192,8 @@ class App extends React.Component {
             bounties={bounties.filter(bounty => filter.leagues.length === 0 || filter.leagues.includes(bounty.league))
               .filter(bounty => filter.status.includes(bounty.status))}
             user={user}
-            deleteBounty={() => console.log('---DELETED---')}
-            onClick={provider => this.showDetails(provider)}
+            showDetails={provider => this.showDetails(provider)}
+            showControls={id => this.showControls(id)}
           />
         </main>
         <footer>
@@ -207,6 +216,10 @@ class App extends React.Component {
         )}
         {modal === 'info' && (
           <DetailsModal provider={details} onClose={() => this.openModal('')} />
+        )}
+
+        {modal === 'controls' && (
+          <ControlsModal markAsClaimed={() => console.log('markasclaimed', bountyId)} deleteBounty={() => console.log('delete', bountyId)} onClose={() => this.openModal('')} />
         )}
       </div>
     )

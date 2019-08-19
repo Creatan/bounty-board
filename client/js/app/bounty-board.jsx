@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const BountyBoard = (props) => {
   const {
-    bounties, user, deleteBounty, onClick,
+    bounties, user, showControls, showDetails,
   } = props
   return (
     <div className="table">
@@ -22,23 +22,35 @@ const BountyBoard = (props) => {
         </thead>
         <tbody>
           {
-            bounties.map(bounty => (
-              <tr data-claimed={bounty.status} key={bounty._id} onClick={bounty.status === 'claimable' ? () => onClick(bounty.provider) : null}>
-                <td width="7%">{ bounty.league }</td>
-                <td width="15%">{ bounty.player.name }</td>
-                <td width="15%">{ bounty.team.name }</td>
-                <td width="20%">{ bounty.prize }</td>
-                <td width="16%">
-                  { bounty.requirement.length > 1
-                    ? `${bounty.requirement.slice(0, -1).join(', ')} or ${bounty.requirement.slice(-1)}` : bounty.requirement[0] }
-                </td>
-                <td width="17%">{ bounty.reason }</td>
-                <td width="10%">
-                  { user._id && bounty.provider._id.toString() === user._id.toString()
-                    ? <button type="button" className="delete-btn" onClick={deleteBounty(bounty._id)}>Delete</button> : bounty.provider.redditName }
-                </td>
-              </tr>
-            ))
+            bounties.map((bounty) => {
+              let onClick = null
+
+              console.log(user, bounty.provider)
+              if (user.redditName === bounty.provider.redditName) {
+                console.log('they are the same name')
+                onClick = () => showControls(bounty._id)
+              } else if (bounty.status === 'claimable') {
+                onClick = () => showDetails(bounty.provider)
+              }
+
+              return (
+                <tr data-claimed={bounty.status} key={bounty._id} onClick={onClick}>
+                  <td width="7%">{ bounty.league }</td>
+                  <td width="15%">{ bounty.player.name }</td>
+                  <td width="15%">{ bounty.team.name }</td>
+                  <td width="20%">{ bounty.prize }</td>
+                  <td width="16%">
+                    { bounty.requirement.length > 1
+                      ? `${bounty.requirement.slice(0, -1).join(', ')} or ${bounty.requirement.slice(-1)}` : bounty.requirement[0] }
+                  </td>
+                  <td width="17%">{ bounty.reason }</td>
+                  <td width="10%">
+                    { bounty.provider.redditName }
+                  </td>
+                </tr>
+
+              )
+            })
           }
         </tbody>
       </table>
@@ -58,12 +70,11 @@ BountyBoard.propTypes = {
     provider: PropTypes.object,
   })),
   user: PropTypes.shape({
-    _id: PropTypes.string,
     redditId: PropTypes.string,
-    name: PropTypes.string,
+    redditName: PropTypes.string,
   }),
-  deleteBounty: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  showControls: PropTypes.func.isRequired,
+  showDetails: PropTypes.func.isRequired,
 }
 
 BountyBoard.defaultProps = {
