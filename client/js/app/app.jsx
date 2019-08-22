@@ -11,6 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: true,
       bounties: [],
       filter: {
         leagues: [],
@@ -39,6 +40,7 @@ class App extends React.Component {
       bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
       season,
       user: Object.keys(user).length === 0 ? undefined : user, // TODO: some other way to handle this
+      loading: false,
     })
   }
 
@@ -170,10 +172,10 @@ class App extends React.Component {
 
   render() {
     const {
-      bounties, season, filter, modal, teams, user, details, bountyId,
+      bounties, season, filter, modal, teams, user, details, bountyId, loading,
     } = this.state
     const bounty = bountyId ? bounties.find(b => b._id.toString() === bountyId) : {}
-    return (
+    return !loading && (
       <div className="container">
         <header>
           <a className="logo" href="/">Rebbl</a>
