@@ -219,7 +219,13 @@ class App extends React.Component {
         )}
 
         {modal === 'controls' && (
-          <ControlsModal markAsClaimed={() => console.log('markasclaimed', bountyId)} deleteBounty={() => console.log('delete', bountyId)} onClose={() => this.openModal('')} />
+          <ControlsModal
+            markAsClaimed={this.markAsClaimed}
+            deleteBounty={this.deleteBounty}
+            onClose={this.closeControls}
+            showClaim={bounty.status === 'claimable'}
+            showDelete={bounty.status !== 'claimable'}
+          />
         )}
       </div>
     )

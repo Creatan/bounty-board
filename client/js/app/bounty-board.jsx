@@ -24,17 +24,14 @@ const BountyBoard = (props) => {
           {
             bounties.map((bounty) => {
               let onClick = null
-
-              console.log(user, bounty.provider)
               if (user.redditName === bounty.provider.redditName) {
-                console.log('they are the same name')
                 onClick = () => showControls(bounty._id)
               } else if (bounty.status === 'claimable') {
                 onClick = () => showDetails(bounty.provider)
               }
-
+              const manage = bounty.provider.redditName === user.redditName ? 'yes' : 'no'
               return (
-                <tr data-claimed={bounty.status} key={bounty._id} onClick={onClick}>
+                <tr data-status={bounty.status} data-manage={manage} key={bounty._id} onClick={onClick}>
                   <td width="7%">{ bounty.league }</td>
                   <td width="15%">{ bounty.player.name }</td>
                   <td width="15%">{ bounty.team.name }</td>
@@ -48,7 +45,6 @@ const BountyBoard = (props) => {
                     { bounty.provider.redditName }
                   </td>
                 </tr>
-
               )
             })
           }

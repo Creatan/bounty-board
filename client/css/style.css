@@ -207,10 +207,11 @@ a {
 }
 
 .manage button{
-  min-width: 45%;
+  min-width: 100%;
 }
-.manage button:nth-child(2) {
-  margin-left: 10%;
+.modal.manage {
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .errors li {
   padding: 2px 0;
@@ -289,7 +290,7 @@ tbody tr:hover {
   border-radius: 5px;
 } 
 .modal-body {
-  padding: 10px 10px 20px 20px;
+  padding: 10px 20px 10px 20px;
 
 }
 .modal-body h3 {
@@ -366,17 +367,23 @@ input[type="checkbox"] + label {
 
 
 /* Rethinkg the colors */
-tr[data-claimed="claimable"] {
+tr[data-status="claimable"] {
   background-color: var(--font-color);
   cursor: pointer;
 }
-tr[data-claimed="claimable"]:hover {
+tr[data-status="claimable"]:hover {
   background-color: var(--font-color);
   cursor: pointer;
 }
-tr[data-claimed="claimable"] td{
+tr[data-status="claimable"] td{
   color: var(--table-bg);
 }
-tr[data-claimed="claimable"] td:nth-child(4){
+tr[data-status="claimable"] td:nth-child(4){
   color: #ff8900;
+}
+tr[data-manage="yes"] {
+  cursor:pointer;
+}
+tr[data-manage="yes"]:hover {
+  cursor:pointer;
 }
