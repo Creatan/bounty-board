@@ -21,6 +21,7 @@ const BountySchema = mongoose.Schema({
   },
   season: String,
   match: String,
+  deleted: { type: Boolean, default: false },
 })
 
 export default mongoose.model('Bounty', BountySchema)

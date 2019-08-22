@@ -21,7 +21,7 @@ function isValid(bounty) {
 }
 
 async function listBounties(req, res) {
-  const bounties = await Bounty.find().sort({ league: 1, 'team.name': 1 }).populate('provider', 'redditName discord -_id').exec()
+  const bounties = await Bounty.find({ deleted: false }).sort({ league: 1, 'team.name': 1 }).populate('provider', 'redditName discord -_id').exec()
   res.json(bounties)
 }
 
@@ -72,16 +72,31 @@ async function deleteBounty(req, res, next) {
   try {
     const bounty = await Bounty.findOne({ _id: req.params.id }).exec()
     if (!bounty) throw new HttpError(404, 'Bounty not found')
-    if (req.user._id.toString() !== bounty.provider.id.toString()) throw new HttpError(403, 'Permission denied')
-    res.json({})
+    if (req.user._id.toString() !== bounty.provider.toString()) throw new HttpError(403, 'Permission denied')
+    bounty.deleted = true
+    await bounty.save()
+    res.json(bounty)
   } catch (err) {
     next(err)
   }
 }
 
+async function markBounty(req, res, next) {
+  try {
+    const bounty = await Bounty.findOne({ _id: req.params.id }).exec()
+    if (!bounty) throw new HttpError(404, 'Bounty not found')
+    if (req.user._id.toString() !== bounty.provider.toString()) throw new HttpError(403, 'Permission denied')
+    bounty.status = req.body.status
+    await bounty.save()
+    res.json(bounty)
+  } catch (err) {
+    next(err)
+  }
+}
 
 router.get('/', listBounties)
 router.post('/', authenticated, createBounty)
 router.delete('/:id', authenticated, deleteBounty)
+router.patch('/:id', authenticated, markBounty)
 
 export default router

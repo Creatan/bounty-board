@@ -50,3 +50,19 @@ export async function createBounty(bounty) {
   })
   return result
 }
+
+export async function deleteBounty(bountyId) {
+  const result = await fetch(`/api/v1/bounty/${bountyId}`, { method: 'DELETE' })
+  return result
+}
+
+export async function markBounty(bountyId) {
+  const result = await fetch(`/api/v1/bounty/${bountyId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: 'claimed' }),
+  })
+  return result
+}
