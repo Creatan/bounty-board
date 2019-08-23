@@ -29,6 +29,23 @@ export async function getTeams(league, season) {
     return []
   }
 }
+
+export async function searchTeams(params) {
+  try {
+    const qp = new URLSearchParams()
+    Object.entries(params).forEach(([key, value]) => {
+      qp.append(key, value)
+    })
+
+    const result = await fetch(`/api/v1/team?${qp.toString()}`)
+    const data = await result.json()
+    return data
+  } catch (err) {
+    console.log(err)
+    return []
+  }
+}
+
 export async function getUser() {
   try {
     const result = await fetch('/api/v1/user')

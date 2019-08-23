@@ -4,7 +4,7 @@ import BountyModal from './bounty-modal'
 import DetailsModal from './details-modal'
 import ControlsModal from './controls-modal'
 import {
-  getBounties, getSeason, getTeams, createBounty, getUser, deleteBounty, markBounty,
+  getBounties, getSeason, getTeams, createBounty, getUser, deleteBounty, markBounty, searchTeams,
 } from '../actions'
 
 class App extends React.Component {
@@ -23,6 +23,7 @@ class App extends React.Component {
       details: {},
       teams: [],
       bountyId: '',
+      player: '',
     }
 
     this.getTeams = this.getTeams.bind(this)
@@ -32,16 +33,28 @@ class App extends React.Component {
     this.deleteBounty = this.deleteBounty.bind(this)
     this.closeControls = this.closeControls.bind(this)
     this.closeDetails = this.closeDetails.bind(this)
+    this.closeBountyModal = this.closeBountyModal.bind(this)
   }
 
   async componentDidMount() {
+    const params = new URLSearchParams(window.location.search)
     const [bounties, season, user] = await Promise.all([getBounties(), getSeason(), getUser()])
-    this.setState({
+    let teams = []
+    const player = params.get('player')
+    if (player) {
+      teams = await searchTeams({ player })
+    }
+    const newState = {
       bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
+      teams,
       season,
       user: Object.keys(user).length === 0 ? undefined : user, // TODO: some other way to handle this
       loading: false,
-    })
+      player: player || '',
+    }
+    if (params.get('player')) newState.modal = 'createBounty'
+
+    this.setState(newState)
   }
 
   setStatusFilter(status) {
@@ -83,7 +96,7 @@ class App extends React.Component {
       const savedBounty = await response.json()
       this.setState((prevState) => {
         const { bounties } = prevState
-        return { bounties: [...bounties, savedBounty].sort((a, b) => -a.league.localeCompare(b.league)) }
+        return { bounties: [...bounties, savedBounty].sort((a, b) => -a.league.localeCompare(b.league)), player: '' }
       })
     } else {
       const error = await response.json()
@@ -110,10 +123,12 @@ class App extends React.Component {
   }
 
   async markAsClaimed() {
-    const { bountyId } = this.state
+    const { bountyId, player } = this.state
     const response = await markBounty(bountyId)
     if (response.status === 200) {
       const bounty = await response.json()
+      if (player) window.history.replaceState(null, null, window.location.pathname)
+
       this.setState((prevState) => {
         const { bounties } = prevState
         const oldBountyIndex = bounties.findIndex(b => b._id.toString() === bounty._id.toString())
@@ -162,6 +177,11 @@ class App extends React.Component {
     })
   }
 
+  closeBountyModal() {
+    window.history.replaceState(null, null, window.location.pathname)
+    this.setState({ modal: '', player: '' })
+  }
+
   async authenticate() {
     const response = await fetch('/auth/reddit')
     if (response.ok) {
@@ -172,7 +192,7 @@ class App extends React.Component {
 
   render() {
     const {
-      bounties, season, filter, modal, teams, user, details, bountyId, loading,
+      bounties, season, filter, modal, teams, user, details, bountyId, loading, player,
     } = this.state
     const bounty = bountyId ? bounties.find(b => b._id.toString() === bountyId) : {}
     return !loading && (
@@ -270,8 +290,9 @@ class App extends React.Component {
             season={season}
             teams={teams}
             getTeams={this.getTeams}
-            onCancel={() => this.openModal('')}
+            onCancel={this.closeBountyModal}
             createBounty={this.createBounty}
+            player={player}
           />
         )}
         {modal === 'info' && (

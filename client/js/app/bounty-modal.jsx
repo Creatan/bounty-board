@@ -7,11 +7,13 @@ import PropTypes from 'prop-types'
 class BountyModal extends React.Component {
   constructor(props) {
     super(props)
+    const { teams, player } = props
+    const team = teams.find(t => t.roster.some(p => p.id === +player)) || {}
     this.state = {
-      league: '',
-      division: '',
-      player: '',
-      team: '',
+      league: team.league || '',
+      division: team.division || '',
+      player: player || '',
+      team: team.id || '',
       requirement: [],
       reason: '',
       prize: '',
@@ -248,11 +250,13 @@ BountyModal.propTypes = {
   getTeams: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   createBounty: PropTypes.func.isRequired,
+  player: PropTypes.string,
 }
 
 BountyModal.defaultProps = {
   season: {},
   teams: [],
+  player: '',
 }
 
 export default BountyModal
