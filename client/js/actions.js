@@ -57,6 +57,24 @@ export async function getUser() {
   }
 }
 
+export async function updateUser(discord) {
+  try {
+    const result = await fetch('/api/v1/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ discord }),
+    })
+
+    const data = await result.json()
+    return data
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
 export async function createBounty(bounty) {
   const result = await fetch('/api/v1/bounty', {
     method: 'POST',
