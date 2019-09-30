@@ -8,6 +8,7 @@ const ControlsModal = (props) => {
   const {
     markAsClaimed, deleteBounty, onClose, showClaim, showDelete,
   } = props
+
   return (
     <Fragment>
       <div className="modal manage">

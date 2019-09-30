@@ -3,8 +3,10 @@ import BountyBoard from './bounty-board'
 import BountyModal from './bounty-modal'
 import DetailsModal from './details-modal'
 import ControlsModal from './controls-modal'
+import SettingsModal from './settings-modal'
 import {
   getBounties, getSeason, getTeams, createBounty, getUser, deleteBounty, markBounty, searchTeams,
+  updateUser,
 } from '../actions'
 
 class App extends React.Component {
@@ -34,6 +36,7 @@ class App extends React.Component {
     this.closeControls = this.closeControls.bind(this)
     this.closeDetails = this.closeDetails.bind(this)
     this.closeBountyModal = this.closeBountyModal.bind(this)
+    this.saveDetails = this.saveDetails.bind(this)
   }
 
   async componentDidMount() {
@@ -182,6 +185,11 @@ class App extends React.Component {
     this.setState({ modal: '', player: '' })
   }
 
+  async saveDetails(discord) {
+    const user = await updateUser(discord)
+    this.setState({ user })
+  }
+
   async authenticate() {
     const response = await fetch('/auth/reddit')
     if (response.ok) {
@@ -200,6 +208,7 @@ class App extends React.Component {
         <header>
           <a className="logo" href="/">Rebbl</a>
           <h1>Bounty Board</h1>
+          <div className="settings"><button type="button" onClick={() => this.openModal('settings')}>Settings</button></div>
         </header>
         <main>
           <div className="nav">
@@ -299,13 +308,20 @@ class App extends React.Component {
           <DetailsModal provider={details} onClose={this.closeDetails} />
         )}
 
-        {modal === 'controls' && (
+        {modal === 'controls' && bounty.status !== 'claimed' && (
           <ControlsModal
             markAsClaimed={this.markAsClaimed}
             deleteBounty={this.deleteBounty}
             onClose={this.closeControls}
             showClaim={bounty.status === 'claimable'}
-            showDelete={bounty.status !== 'claimable'}
+            showDelete={bounty.status === 'open'}
+          />
+        )}
+        {modal === 'settings' && (
+          <SettingsModal
+            saveDetails={this.saveDetails}
+            user={user}
+            onClose={this.closeControls}
           />
         )}
       </div>

@@ -92,6 +92,7 @@ p {
 header {
   display: flex;
   margin-bottom: 40px;
+  position: relative;
 }
 
 main {
@@ -273,7 +274,20 @@ tbody tr:hover {
 .hidden {
   display: none;
 }
-
+.settings {
+  position: absolute;
+  right:0;
+  top:0;
+}
+.settings button {
+  background: url(../images/settings-2.png);
+  background-color: transparent;
+  background-size: 24px;
+  text-indent: -9999px;
+  border: none;
+  width: 24px;
+  height: 24px;
+}
 /* MODAL */
 
 .modal {
