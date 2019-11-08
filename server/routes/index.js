@@ -64,7 +64,8 @@ async function createBounty(req, res, next) {
       provider: req.user._id,
       season: season.identifier,
     })
-    res.json(await bounty.save())
+    const newBounty = await bounty.save()
+    res.json(await newBounty.populate('provider', 'redditName discord -_id').execPopulate())
   }
 }
 
