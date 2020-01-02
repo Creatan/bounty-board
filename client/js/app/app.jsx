@@ -44,6 +44,7 @@ class App extends React.Component {
     const [bounties, season, user] = await Promise.all([getBounties(), getSeason(), getUser()])
     let teams = []
     const player = params.get('player')
+    const loggedIn = Object.keys(user).length !== 0
     if (player) {
       teams = await searchTeams({ player })
     }
@@ -51,11 +52,11 @@ class App extends React.Component {
       bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
       teams,
       season,
-      user: Object.keys(user).length === 0 ? undefined : user, // TODO: some other way to handle this
+      user: loggedIn ? undefined : user, // TODO: some other way to handle this
       loading: false,
       player: player || '',
     }
-    if (params.get('player')) newState.modal = 'createBounty'
+    if (params.get('player') && loggedIn) newState.modal = 'createBounty'
 
     this.setState(newState)
   }
