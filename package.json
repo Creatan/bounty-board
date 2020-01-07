@@ -4,11 +4,14 @@
   "description": "Bounty board",
   "main": "server.js",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/server/server.js",
     "server:dev": "nodemon --exec babel-node ./server/server.js",
     "client:dev": "npx parcel client/index.html",
-    "build": "babel server --out-dir dist && parcel build client/index.html --out-dir dist/static",
-    "import:teams": "babel-node ./worker/import-teams.js",
+    "build": "babel server --out-dir dist/server && babel worker --out-dir dist/worker && parcel build client/index.html --out-dir dist/server/static",
+    "import-teams:dev": "babel-node ./worker/import-teams.js",
+    "import-teams:prod": "node ./dist/worker/import-teams.js",
+    "update-bounties:dev": "babel-node ./worker/bounty-updater.js",
+    "update-bounties:prod": "node ./dist/worker/bounty-updater.js",
     "import:bounties": "babel-node ./worker/import-bounties.js",
     "create:season": "babel-node ./worker/create-season.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -33,7 +36,7 @@
     "ejs": "^2.7.4",
     "express": "^4.16.4",
     "express-session": "^1.17.0",
-    "mongoose": "^5.8.3",
+    "mongoose": "^5.8.5",
     "ora": "^3.4.0",
     "passport": "^0.4.1",
     "passport-reddit": "^0.2.4",
@@ -61,7 +64,7 @@
     "nodemon": "^1.19.4",
     "parcel-bundler": "^1.12.4"
   },
-  "engine": {
+  "engines": {
     "node": "10.x"
   },
   "browserslist": [
