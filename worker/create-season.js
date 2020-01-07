@@ -27,13 +27,18 @@ if (!season) {
     await delay(100)
     return { name: league, divisions }
   })
+
   await new Season({
     identifier: season,
     leagues: leagueDivisions,
     active: true,
   }).save()
-  oldSeason.active = false
-  await oldSeason.save()
+
+  if (oldSeason) {
+    oldSeason.active = false
+    await oldSeason.save()
+  }
+
   console.log(`Created new season with identifier: ${season}`)
   mongoose.connection.close()
 })()
