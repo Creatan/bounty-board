@@ -48,11 +48,12 @@ class App extends React.Component {
     if (player) {
       teams = await searchTeams({ player })
     }
+
     const newState = {
       bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
       teams,
       season,
-      user: loggedIn ? undefined : user, // TODO: some other way to handle this
+      user: loggedIn ? user : undefined, // TODO: some other way to handle this
       loading: false,
       player: player || '',
     }
