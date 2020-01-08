@@ -9,9 +9,17 @@ function transformSeasonData(season) {
     label: league.name.split(' - ')[1],
   }))
 
+  // TODO: hopefully we can get rid of this in the future
   const divisions = season.leagues.reduce((acc, cur) => acc.concat(cur.divisions
     .map((div) => {
-      const label = div.indexOf('–') > -1 ? div.split(' – ')[1] : div.split(' - ')[1]
+      let label = ''
+      if (div.indexOf('–') > -1) {
+        label = div.split(' – ')[1]
+      } else if (div.indexOf('-') > -1) {
+        label = div.split(' - ')[1]
+      } else {
+        label = div.split(' ').slice(2).join(' ') // Big O is special
+      }
       return { league: cur.name, value: `${div}`, label }
     })), [])
     .sort((a, b) => {
