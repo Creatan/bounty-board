@@ -14,9 +14,7 @@ async function getUser(req, res) {
 
 async function updateUser(req, res) {
   if (req.user) {
-    console.log('body', req.body)
     const { discord } = req.body
-    console.log('discord', discord)
     const user = await User.findOne({ _id: req.user._id }).exec()
     user.discord = discord
     const updatedUser = await user.save()

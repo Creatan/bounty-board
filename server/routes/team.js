@@ -13,9 +13,7 @@ async function getTeams(req, res) {
   if (league) query.league = league
   if (season) query.seasons = season
   if (player) query['roster.id'] = +player
-  console.log(query)
   const teams = await Team.find(query).exec()
-  console.log(teams)
   res.json(teams)
 }
 
