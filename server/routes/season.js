@@ -10,7 +10,10 @@ function transformSeasonData(season) {
   }))
 
   const divisions = season.leagues.reduce((acc, cur) => acc.concat(cur.divisions
-    .map(div => ({ league: cur.name, value: `${div}`, label: div.split(' - ')[1] }))), [])
+    .map((div) => {
+      const label = div.indexOf('–') > -1 ? div.split(' – ')[1] : div.split(' - ')[1]
+      return { league: cur.name, value: `${div}`, label }
+    })), [])
     .sort((a, b) => {
       if (a.label > b.label) return 1
       if (a.label < b.label) return -1
