@@ -11,12 +11,13 @@ const BountyBoard = (props) => {
       <table>
         <thead>
           <tr>
-            <th width="7%">League</th>
+            <th width="5%">League</th>
+            <th width="5%">Division</th>
             <th width="15%">Player</th>
             <th width="15%">Team</th>
             <th width="20%">Prize</th>
-            <th width="16%">Requirement</th>
-            <th width="17%">Reason</th>
+            <th width="15%">Requirement</th>
+            <th width="15%">Reason</th>
             <th width="10%">Provider</th>
           </tr>
         </thead>
@@ -32,15 +33,16 @@ const BountyBoard = (props) => {
               const manage = bounty.provider.redditName === user.redditName ? 'yes' : 'no'
               return (
                 <tr data-status={bounty.status} data-manage={manage} key={bounty._id} onClick={onClick}>
-                  <td width="7%">{ bounty.league }</td>
+                  <td width="5%">{ bounty.league }</td>
+                  <td width="5%">{ bounty.division }</td>
                   <td width="15%">{ bounty.player.name }</td>
                   <td width="15%">{ bounty.team.name }</td>
                   <td width="20%">{ bounty.prize }</td>
-                  <td width="16%">
+                  <td width="15%">
                     { bounty.requirement.length > 1
                       ? `${bounty.requirement.slice(0, -1).join(', ')} or ${bounty.requirement.slice(-1)}` : bounty.requirement[0] }
                   </td>
-                  <td width="17%">{ bounty.reason }</td>
+                  <td width="15%">{ bounty.reason }</td>
                   <td width="10%">
                     { bounty.provider.redditName }
                   </td>
