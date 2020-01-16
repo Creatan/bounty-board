@@ -34,6 +34,16 @@ const store = new MongoDBStore({
 
 const app = express()
 
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      res.redirect(301, `https://${req.hostname}${req.originalUrl}`)
+    } else {
+      next()
+    }
+  })
+}
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('trust proxy', 1)
