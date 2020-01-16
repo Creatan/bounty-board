@@ -48,7 +48,7 @@ async function createBounty(req, res, next) {
     const playerData = teamData.roster.find(p => p.id === parseInt(player, 10))
     const bounty = new Bounty({
       league,
-      division: division.split(':')[1],
+      division,
       team: {
         id: teamData.id,
         name: teamData.name,
