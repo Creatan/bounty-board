@@ -9,7 +9,7 @@ import Season from '../server/models/season'
 
 dotenv.config()
 mongoose.Promise = P
-mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P })
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, useUnifiedTopology: true })
 const args = process.argv.slice(2)
 
 const season = args[0]

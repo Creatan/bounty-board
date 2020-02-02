@@ -7,7 +7,7 @@ import Bounty from '../server/models/bounty'
 
 dotenv.config()
 mongoose.Promise = P
-mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P });
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, useUnifiedTopology: true });
 (async () => {
   const bountyBase = await Bounty.findOne({}).exec()
 

@@ -8,7 +8,7 @@ import Team from '../server/models/team'
 
 dotenv.config()
 mongoose.Promise = P
-mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P });
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, useUnifiedTopology: true });
 (async () => {
   const bounties = await Bounty.find({ division: { $exists: false } }).exec()
   await P.all(bounties.map(async (bounty) => {

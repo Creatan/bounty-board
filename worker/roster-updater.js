@@ -11,7 +11,7 @@ import { delay } from '../server/utils'
 
 dotenv.config()
 mongoose.Promise = P
-mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P });
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, useUnifiedTopology: true });
 
 (async () => {
   const season = await Season.findOne({ active: true }).exec()

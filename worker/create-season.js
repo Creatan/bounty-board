@@ -9,7 +9,7 @@ import { delay } from '../server/utils'
 
 dotenv.config()
 mongoose.Promise = P
-mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P })
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, useUnifiedTopology: true })
 
 const season = process.argv[2]
 
