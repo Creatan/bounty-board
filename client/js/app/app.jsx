@@ -50,7 +50,7 @@ class App extends React.Component {
     }
 
     const newState = {
-      bounties: bounties.sort((a, b) => -a.league.localeCompare(b.league)),
+      bounties,
       teams,
       season,
       user: loggedIn ? user : undefined, // TODO: some other way to handle this

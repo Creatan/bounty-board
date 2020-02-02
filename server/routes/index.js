@@ -20,9 +20,30 @@ function isValid(bounty) {
   return validationErrors
 }
 
+function sortBounties(a, b) {
+  const sortByLeague = a.displayLeague.localeCompare(b.displayLeague)
+  if (sortByLeague !== 0) {
+    return sortByLeague
+  }
+  const sortByTeamName = a.team.name.localeCompare(b.team.name)
+  if (sortByTeamName !== 0) {
+    return sortByTeamName
+  }
+  return a.player.name.localeCompare(b.player.name)
+}
+
 async function listBounties(req, res) {
-  const bounties = await Bounty.find({ deleted: false }).sort({ league: 1, 'team.name': 1 }).populate('provider', 'redditName discord -_id').exec()
-  res.json(bounties)
+  const bounties = await Bounty.find({ deleted: false }).populate('provider', 'redditName discord -_id').exec()
+  const transformedBounties = bounties.map(bounty => ({
+    ...bounty.toObject(),
+    displayLeague: `${bounty.league.split(' - ')[1]} ${bounty.division.split(' ').pop()}`,
+  }))
+  const claimableBounties = transformedBounties.filter(bounty => bounty.status === 'claimable')
+  const rest = transformedBounties.filter(bounty => bounty.status !== 'claimable')
+  claimableBounties.sort(sortBounties)
+  rest.sort(sortBounties)
+
+  res.json(claimableBounties.concat(rest))
 }
 
 async function createBounty(req, res, next) {

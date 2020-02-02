@@ -24,7 +24,6 @@ const BountyBoard = (props) => {
           {
             bounties.map((bounty) => {
               let onClick = null
-              const displayLeague = `${bounty.league.split(' - ')[1]} ${bounty.division.split(' ').pop()}`
               if (user.redditName === bounty.provider.redditName) {
                 onClick = () => showControls(bounty._id)
               } else if (bounty.status === 'claimable') {
@@ -33,7 +32,7 @@ const BountyBoard = (props) => {
               const manage = bounty.provider.redditName === user.redditName ? 'yes' : 'no'
               return (
                 <tr data-status={bounty.status} data-manage={manage} key={bounty._id} onClick={onClick}>
-                  <td width="2%">{ displayLeague }</td>
+                  <td width="2%">{ bounty.displayLeague }</td>
                   <td width="15%">{ bounty.player.name }</td>
                   <td width="15%">{ bounty.team.name }</td>
                   <td width="20%">{ bounty.prize }</td>
