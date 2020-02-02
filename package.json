@@ -12,6 +12,8 @@
     "import-teams:prod": "node ./dist/worker/import-teams.js",
     "update-bounties:dev": "babel-node ./worker/bounty-updater.js",
     "update-bounties:prod": "node ./dist/worker/bounty-updater.js",
+    "update-roster:dev": "babel-node ./worker/roster-updater.js",
+    "update-roster:prod": "node ./dist/worker/roster-updater.js",
     "import:bounties": "babel-node ./worker/import-bounties.js",
     "create:season": "babel-node ./worker/create-season.js",
     "test": "echo \"Error: no test specified\" && exit 1"
