@@ -31,7 +31,7 @@ const requirementToInjuries = (requirement) => {
     process.exit(1)
   }
   try {
-    const bounties = await Bounty.find({ season: season.identifier }).exec()
+    const bounties = await Bounty.find({ season: season.identifier, deleted: false }).exec()
     const bountiesByTeam = bounties.reduce((acc, curr) => {
       const data = {
         id: curr._id,
@@ -53,10 +53,15 @@ const requirementToInjuries = (requirement) => {
       const players = roster.concat(retiredPlayers).map(player => ({
         id: player.id, name: player.name, injuries: player.casualties_sustained_total,
       }))
+      const retiredPlayerIds = retiredPlayers.map(player => player.id)
       await P.all(teamBounties.map(async (bounty) => {
         const player = players.find(p => p.id === bounty.player.id)
         const bountyInjuries = bounty.requirement.reduce((acc, curr) => acc.concat(requirementToInjuries(curr)), [])
-        if (player && player.injuries.some(injury => bountyInjuries.includes(injury))) {
+        if (player
+          && (
+            player.injuries.some(injury => bountyInjuries.includes(injury))
+            || (bountyInjuries.includes('Retired') && retiredPlayerIds.includes(player.id))
+          )) {
           await Bounty.updateOne({ _id: bounty.id }, { status: 'claimable' }).exec()
         }
       }))
