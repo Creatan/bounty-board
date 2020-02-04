@@ -31,8 +31,11 @@ const requirementToInjuries = (requirement) => {
     process.exit(1)
   }
   try {
-    const bounties = await Bounty.find({ season: season.identifier, deleted: false }).exec()
-    const bountiesByTeam = bounties.reduce((acc, curr) => {
+    const bounties = await Bounty.find({
+      season: season.identifier,
+      deleted: false,
+    }).exec()
+    const bountiesByTeam = bounties.filter(bounty => bounty.team.id !== null).reduce((acc, curr) => {
       const data = {
         id: curr._id,
         player: curr.player,
