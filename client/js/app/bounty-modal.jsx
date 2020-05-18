@@ -30,7 +30,7 @@ class BountyModal extends React.Component {
     // Fetch teams if league changes
     if (name === 'league') {
       await getTeams(value)
-      this.setState({ league: value })
+      this.setState({ league: value, division: '' })
     } else if (name === 'requirement') {
       if (checked) {
         this.setState((prevState) => {
