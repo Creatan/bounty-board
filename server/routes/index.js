@@ -33,7 +33,8 @@ function sortBounties(a, b) {
 }
 
 async function listBounties(req, res) {
-  const bounties = await Bounty.find({ deleted: false }).populate('provider', 'redditName discord -_id').exec()
+  const season = await Season.findOne({ active: true }).exec()
+  const bounties = await Bounty.find({ deleted: false, season: season.identifier }).populate('provider', 'redditName discord -_id').exec()
   const transformedBounties = bounties.map(bounty => ({
     ...bounty.toObject(),
     displayLeague: `${bounty.league.split(' - ')[1]} ${bounty.division.split(' ').pop()}`,
