@@ -20,14 +20,15 @@ mongoose.connect(process.env.DBURI, { useNewUrlParser: true, promiseLibrary: P, 
     process.exit(1)
   }
   try {
-    const teams = await Team.find({ season: { $in: season.identifier } }).exec()
+    const teams = await Team.find({ seasons: season.identifier }).exec()
     await P.map(teams, (async (team) => {
+      console.log(`updating team ${team.id}`)
       const rosterUrl = `https://rebbl.net/api/v2/team/${team.id}/players`
       const roster = await request.get(rosterUrl, { json: true })
 
-      const players = roster.map(player => ({
+      const players = roster ? roster.map(player => ({
         id: player.id, name: player.name,
-      }))
+      })) : []
       await Team.updateOne({ id: team.id }, { $set: { roster: players } }).exec()
       await delay(100)
     }), { concurrency: 1 })
