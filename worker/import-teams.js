@@ -35,16 +35,18 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
       await P.map(allowedLeagues, async (league) => {
         const teams = await request.get(`https://rebbl.net/api/v2/standings/${league}/${season}`, { json: true })
         await P.map(teams, async (team) => {
+          console.log(`Handling team: ${team.teamId}`)
           const oldTeam = await Team.findOne({ id: team.teamId }).exec()
           if (!oldTeam || !oldTeam.seasons.includes(season)) {
             const url = `https://rebbl.net/api/v2/team/${team.teamId}/players`
             const playerData = await request(url, { json: true })
 
-            const roster = playerData.map(player => ({
+            const roster = playerData ? playerData.map(player => ({
               id: player.id,
               name: player.name,
-            }))
+            })) : []
             if (!oldTeam) {
+              console.log('Creating new team')
               const newTeam = new Team({
                 id: team.teamId,
                 name: team.team,
@@ -55,6 +57,7 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
               })
               await newTeam.save()
             } else {
+              console.log('updating old team')
               oldTeam.seasons.push(season)
 
               oldTeam.roster = roster
