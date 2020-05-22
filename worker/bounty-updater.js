@@ -53,9 +53,8 @@ const requirementToInjuries = (requirement) => {
       const rosterUrl = `https://rebbl.net/api/v2/team/${teamId}/players`
       const previousPlayers = `https://rebbl.net/api/v2/team/${teamId}/retiredplayers`
       const [roster, retiredPlayers] = await P.all([request.get(rosterUrl, { json: true }), request.get(previousPlayers, { json: true })])
-
       const players = roster.concat(retiredPlayers).map(player => ({
-        id: player.id, name: player.name, injuries: player.casualties_sustained_total,
+        id: player.id, name: player.name, injuries: player.casualties_sustained_total || [],
       }))
       const retiredPlayerIds = retiredPlayers.map(player => player.id)
       await P.all(teamBounties.map(async (bounty) => {
