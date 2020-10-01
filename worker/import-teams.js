@@ -51,7 +51,7 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
                 id: team.teamId,
                 name: team.team,
                 league,
-                division: team.competition,
+                division: team.competition.trim(),
                 seasons: [season],
                 roster,
               })
@@ -61,7 +61,7 @@ const delay = ms => new P(resolve => setTimeout(resolve, ms));
               oldTeam.seasons.push(season)
 
               oldTeam.roster = roster
-              oldTeam.division = team.competition
+              oldTeam.division = team.competition.trim()
               await oldTeam.save()
             }
 
